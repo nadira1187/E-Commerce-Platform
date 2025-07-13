@@ -3,3 +3,383 @@
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap");
+
+/* Custom Olive and Cream Color Palette */
+@layer base {
+  :root {
+    /* Olive Colors */
+    --olive-50: #f8f9f0;
+    --olive-100: #eef2d9;
+    --olive-200: #dde5b8;
+    --olive-300: #c8d48d;
+    --olive-400: #b5c368;
+    --olive-500: #9fb049;
+    --olive-600: #7d8f37;
+    --olive-700: #606d2c;
+    --olive-800: #4d5625;
+    --olive-900: #424922;
+
+    /* Cream Colors */
+    --cream-50: #fefdf8;
+    --cream-100: #fdfbf0;
+    --cream-200: #faf6e1;
+    --cream-300: #f6f0cc;
+    --cream-400: #f0e6ad;
+    --cream-500: #e8d888;
+    --cream-600: #dcc55f;
+    --cream-700: #c9a842;
+    --cream-800: #a68635;
+    --cream-900: #876d2e;
+  }
+
+  /* Font Families */
+  .font-inter {
+    font-family: "Inter", sans-serif;
+  }
+
+  .font-playfair {
+    font-family: "Playfair Display", serif;
+  }
+}
+
+/* Custom Utility Classes */
+@layer utilities {
+  /* Olive Colors */
+  .text-olive-50 {
+    color: rgb(248 249 240);
+  }
+  .text-olive-100 {
+    color: rgb(238 242 217);
+  }
+  .text-olive-200 {
+    color: rgb(221 229 184);
+  }
+  .text-olive-300 {
+    color: rgb(200 212 141);
+  }
+  .text-olive-400 {
+    color: rgb(181 195 104);
+  }
+  .text-olive-500 {
+    color: rgb(159 176 73);
+  }
+  .text-olive-600 {
+    color: rgb(125 143 55);
+  }
+  .text-olive-700 {
+    color: rgb(96 109 44);
+  }
+  .text-olive-800 {
+    color: rgb(77 86 37);
+  }
+  .text-olive-900 {
+    color: rgb(66 73 34);
+  }
+
+  .bg-olive-50 {
+    background-color: rgb(248 249 240);
+  }
+  .bg-olive-100 {
+    background-color: rgb(238 242 217);
+  }
+  .bg-olive-200 {
+    background-color: rgb(221 229 184);
+  }
+  .bg-olive-300 {
+    background-color: rgb(200 212 141);
+  }
+  .bg-olive-400 {
+    background-color: rgb(181 195 104);
+  }
+  .bg-olive-500 {
+    background-color: rgb(159 176 73);
+  }
+  .bg-olive-600 {
+    background-color: rgb(125 143 55);
+  }
+  .bg-olive-700 {
+    background-color: rgb(96 109 44);
+  }
+  .bg-olive-800 {
+    background-color: rgb(77 86 37);
+  }
+  .bg-olive-900 {
+    background-color: rgb(66 73 34);
+  }
+
+  /* Cream Colors */
+  .text-cream-50 {
+    color: rgb(254 253 248);
+  }
+  .text-cream-100 {
+    color: rgb(253 251 240);
+  }
+  .text-cream-200 {
+    color: rgb(250 246 225);
+  }
+  .text-cream-300 {
+    color: rgb(246 240 204);
+  }
+  .text-cream-400 {
+    color: rgb(240 230 173);
+  }
+  .text-cream-500 {
+    color: rgb(232 216 136);
+  }
+  .text-cream-600 {
+    color: rgb(220 197 95);
+  }
+  .text-cream-700 {
+    color: rgb(201 168 66);
+  }
+  .text-cream-800 {
+    color: rgb(166 134 53);
+  }
+  .text-cream-900 {
+    color: rgb(135 109 46);
+  }
+
+  .bg-cream-50 {
+    background-color: rgb(254 253 248);
+  }
+  .bg-cream-100 {
+    background-color: rgb(253 251 240);
+  }
+  .bg-cream-200 {
+    background-color: rgb(250 246 225);
+  }
+  .bg-cream-300 {
+    background-color: rgb(246 240 204);
+  }
+  .bg-cream-400 {
+    background-color: rgb(240 230 173);
+  }
+  .bg-cream-500 {
+    background-color: rgb(232 216 136);
+  }
+  .bg-cream-600 {
+    background-color: rgb(220 197 95);
+  }
+  .bg-cream-700 {
+    background-color: rgb(201 168 66);
+  }
+  .bg-cream-800 {
+    background-color: rgb(166 134 53);
+  }
+  .bg-cream-900 {
+    background-color: rgb(135 109 46);
+  }
+
+  /* Border Colors */
+  .border-olive-100 {
+    border-color: rgb(238 242 217);
+  }
+  .border-olive-200 {
+    border-color: rgb(221 229 184);
+  }
+  .border-olive-300 {
+    border-color: rgb(200 212 141);
+  }
+  .border-olive-400 {
+    border-color: rgb(181 195 104);
+  }
+  .border-olive-500 {
+    border-color: rgb(159 176 73);
+  }
+
+  /* Hover States */
+  .hover\:bg-olive-700:hover {
+    background-color: rgb(96 109 44);
+  }
+  .hover\:bg-cream-100:hover {
+    background-color: rgb(253 251 240);
+  }
+  .hover\:bg-cream-200:hover {
+    background-color: rgb(250 246 225);
+  }
+  .hover\:text-olive-700:hover {
+    color: rgb(96 109 44);
+  }
+  .hover\:text-olive-900:hover {
+    color: rgb(66 73 34);
+  }
+  .hover\:border-olive-300:hover {
+    border-color: rgb(200 212 141);
+  }
+
+  /* Focus States */
+  .focus\:ring-olive-300:focus {
+    --tw-ring-color: rgb(200 212 141);
+  }
+  .focus\:border-olive-400:focus {
+    border-color: rgb(181 195 104);
+  }
+
+  /* Placeholder Colors */
+  .placeholder-olive-500::placeholder {
+    color: rgb(159 176 73);
+  }
+}
+
+/* Custom Animations */
+@layer utilities {
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes float-delayed {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float-delayed 8s ease-in-out infinite;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+  }
+
+  .delay-200 {
+    animation-delay: 0.2s;
+  }
+  .delay-400 {
+    animation-delay: 0.4s;
+  }
+  .delay-500 {
+    animation-delay: 0.5s;
+  }
+  .delay-600 {
+    animation-delay: 0.6s;
+  }
+  .delay-800 {
+    animation-delay: 0.8s;
+  }
+  .delay-1000 {
+    animation-delay: 1s;
+  }
+}
+
+/* Custom Components */
+@layer components {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+  }
+
+  .backdrop-blur-lg {
+    backdrop-filter: blur(16px);
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgb(253 251 240);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgb(125 143 55);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(96 109 44);
+  }
+
+  /* Selection Colors */
+  ::selection {
+    background-color: rgb(221 229 184);
+    color: rgb(66 73 34);
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Base styles */
+body {
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Focus styles */
+*:focus {
+  outline: none;
+}
+
+/* Button focus styles */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid rgb(200 212 141);
+  outline-offset: 2px;
+}
+
+/* Image loading optimization */
+img {
+  loading: lazy;
+}
+
+/* Prevent layout shift */
+.aspect-ratio-16-9 {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-ratio-1-1 {
+  aspect-ratio: 1 / 1;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
