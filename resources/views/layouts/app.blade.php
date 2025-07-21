@@ -51,13 +51,13 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-4"></path>
                             </svg>
-                            <span id="cart-count" class="absolute -top-2 -right-2 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                            <span id="cart-count" class="absolute -top-2 -right-2 bg-green-950 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
                         </a>
 
                         <!-- User Menu -->
                         <div class="relative" x-data="{ open: false }">
                             <button @click="open = !open" class="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
-                                <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
+                                <div class="w-8 h-8 bg-green-950 rounded-full flex items-center justify-center">
                                     <span class="text-white text-sm font-medium">{{ substr(auth()->user()->name, 0, 1) }}</span>
                                 </div>
                                 <span class="hidden md:block">{{ auth()->user()->name }}</span>
@@ -77,7 +77,7 @@
                         </div>
                     @else
                         <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-900">Sign In</a>
-                        <a href="{{ route('register') }}" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">Sign Up</a>
+                        <a href="{{ route('register') }}" class="bg-green-950 text-white px-4 py-2 rounded-lg hover:bg-green-700">Sign Up</a>
                     @endauth
                 </div>
             </div>
@@ -103,7 +103,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 mt-16">
+    <footer class="bg-gray-900 text-white py-12 ">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
