@@ -272,7 +272,7 @@
                         
                         <!-- Actions -->
                         <div class="flex space-x-3">
-                            <a href="{{ route('product.show', $product->id) }}" 
+                            <a href="{{ route('products.show', $product->id) }}" 
                                class="flex-1 bg-olive-800 text-cream-50 text-center py-3 rounded-2xl hover:bg-olive-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl hover:scale-105">
                                 View Details
                             </a>

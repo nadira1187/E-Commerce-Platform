@@ -51,7 +51,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 // Product routes
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
-Route::post('/cart/add', [ProductController::class, 'addToCart'])->name('cart.add')->middleware('auth');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 // Review routes
