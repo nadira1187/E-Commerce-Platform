@@ -15,17 +15,13 @@ class Review extends Model
         'rating',
         'title',
         'content',
-        'size',
-        'color',
-        'images',
-        'verified_purchase',
-        'helpful_count',
-        'not_helpful_count',
+        'verified_purchase'
     ];
 
     protected $casts = [
-        'images' => 'array',
         'verified_purchase' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
 
     public function user()
@@ -38,8 +34,13 @@ class Review extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function helpfulVotes()
+    public function likes()
     {
-        return $this->hasMany(ReviewVote::class);
+        return $this->hasMany(ReviewLike::class);
+    }
+
+    public function getLikesCountAttribute()
+    {
+        return $this->likes()->count();
     }
 }
