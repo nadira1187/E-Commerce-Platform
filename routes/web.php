@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\ProductController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -47,4 +48,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/users', [AdminController::class, 'users'])->name('users');
     Route::put('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.status');
     Route::put('/products/{product}/status', [AdminController::class, 'updateProductStatus'])->name('products.status');
+});
+// Product routes
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+Route::post('/cart/add', [ProductController::class, 'addToCart'])->name('cart.add')->middleware('auth');
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+// Review routes
+Route::middleware(['auth'])->group(function () {
+    Route::post('/reviews/add', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::post('/reviews/{review}/like', [ReviewController::class, 'like'])->name('reviews.like');
 });
