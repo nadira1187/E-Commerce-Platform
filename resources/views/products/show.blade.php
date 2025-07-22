@@ -71,11 +71,12 @@
                                     @endfor
                                     <span class="ml-2 text-gray-600 font-medium">{{ number_format($product->average_rating, 1) }} ({{ $product->reviews_count }} reviews)</span>
                                 </div>
-                                @if($product->in_stock)
-                                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">In Stock</span>
-                                @else
-                                    <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold">Out of Stock</span>
-                                @endif
+                            @if($product->stock_quantity > 0)
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">In Stock</span>
+                            @else
+                            <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold">Out of Stock</span>
+                            @endif
+
                             </div>
                         </div>
 
@@ -155,9 +156,9 @@
 
                             <!-- Action Buttons -->
                             <div class="space-y-4">
-                                <button type="submit" 
+                                <button type="submit" onclick="addToCart({{ $product->id }})"
                                         class="w-full bg-gradient-to-r from-green-800 to-green-900 hover:from-green-700 hover:to-green-800 text-white py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
-                                        {{ !$product->in_stock ? 'disabled' : '' }}>
+                                    {{ $product->stock_quantity <= 0 ? 'disabled' : '' }}
                                     <span class="add-to-cart-text">Add to Cart</span>
                                     <span class="add-to-cart-loading hidden">
                                         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -420,6 +421,32 @@
 </div>
 
 <script>
+     function addToCart(productId) {
+        fetch('{{ route("cart.add") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                quantity: 1,
+                size: 'M',
+                color: 'Default'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateCartCount();
+                showNotification('Product added to cart! 🛍️', 'success');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error adding product to cart', 'error');
+        });
+    }
 // CSRF Token
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
