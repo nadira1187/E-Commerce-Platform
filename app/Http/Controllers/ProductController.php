@@ -39,7 +39,7 @@ $relatedProducts = Product::where('category', $product->category)
 
         $product = Product::findOrFail($request->product_id);
 
-        if (!$product->in_stock) {
+        if (!$product->stock_quantity > 0) {
             return response()->json([
                 'success' => false,
                 'message' => 'Product is out of stock'

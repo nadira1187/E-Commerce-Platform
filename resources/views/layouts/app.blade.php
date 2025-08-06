@@ -103,16 +103,16 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 ">
+    <footer class="bg-green-950 text-white py-12 ">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <h3 class="text-xl font-bold mb-4">StyleHub</h3>
-                    <p class="text-gray-400">Your one-stop destination for fashion-forward clothing for the entire family.</p>
+                    <p class="text-gray-200">Your one-stop destination for fashion-forward clothing for the entire family.</p>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Quick Links</h4>
-                    <ul class="space-y-2 text-gray-400">
+                    <ul class="space-y-2 text-gray-200">
                         <li><a href="#" class="hover:text-white">About Us</a></li>
                         <li><a href="#" class="hover:text-white">Contact</a></li>
                         <li><a href="#" class="hover:text-white">Size Guide</a></li>
@@ -121,7 +121,7 @@
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Categories</h4>
-                    <ul class="space-y-2 text-gray-400">
+                    <ul class="space-y-2 text-gray-200">
                         <li><a href="{{ route('home', ['category' => 'men']) }}" class="hover:text-white">Men's Clothing</a></li>
                         <li><a href="{{ route('home', ['category' => 'women']) }}" class="hover:text-white">Women's Clothing</a></li>
                         <li><a href="{{ route('home', ['category' => 'kids']) }}" class="hover:text-white">Kids' Clothing</a></li>
@@ -129,7 +129,7 @@
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Customer Service</h4>
-                    <ul class="space-y-2 text-gray-400">
+                    <ul class="space-y-2 text-gray-200">
                         <li><a href="#" class="hover:text-white">Help Center</a></li>
                         <li><a href="#" class="hover:text-white">Track Your Order</a></li>
                         <li><a href="#" class="hover:text-white">Shipping Info</a></li>
@@ -147,20 +147,94 @@
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     @stack('scripts')
     
+  
+    <!-- Additional Scripts -->
     <script>
-        // Update cart count
-        function updateCartCount() {
-            fetch('{{ route("cart.count") }}')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('cart-count').textContent = data.count;
-                });
-        }
-        
         // Update cart count on page load
-        @auth
+        document.addEventListener('DOMContentLoaded', function() {
             updateCartCount();
-        @endauth
+        });
+
+        // Function to update cart count
+        async function updateCartCount() {
+            try {
+                const response = await fetch('/cart/count', {
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const cartCountElement = document.getElementById('cart-count');
+                    if (cartCountElement) {
+                        cartCountElement.textContent = data.count;
+                        
+                        // Hide badge if count is 0
+                        if (data.count === 0) {
+                            cartCountElement.style.display = 'none';
+                        } else {
+                            cartCountElement.style.display = 'flex';
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating cart count:', error);
+            }
+        }
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to buttons
+            const buttons = document.querySelectorAll('button, .btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-1px)';
+                });
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add focus effects to form inputs
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    if (this.parentElement) {
+                        this.parentElement.style.transform = 'scale(1.02)';
+                    }
+                });
+                input.addEventListener('blur', function() {
+                    if (this.parentElement) {
+                        this.parentElement.style.transform = 'scale(1)';
+                    }
+                });
+            });
+        });
+
+        // Form validation enhancement
+        function validateForm(form) {
+            const inputs = form.querySelectorAll('input[required], select[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    input.classList.remove('border-red-500');
+                }
+            });
+
+            return isValid;
+        }
+
+        // Add smooth scroll behavior
+        document.documentElement.style.scrollBehavior = 'smooth';
+
+        // Global function to update cart count (can be called from other pages)
+        window.updateCartCount = updateCartCount;
     </script>
 </body>
 </html>

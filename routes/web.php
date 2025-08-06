@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -22,13 +22,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Protected routes
 Route::middleware('auth')->group(function () {
-    // Cart routes
+  // Cart routes
+Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-    Route::put('/cart/{cartItem}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/cart/{cartItem}', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
-
+    Route::put('/cart/update/{item}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{item}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/apply-promo', [CartController::class, 'applyPromo'])->name('cart.apply-promo');
+    Route::post('/cart/save-for-later', [CartController::class, 'saveForLater'])->name('cart.save-for-later');
+    Route::post('/cart/add', [ProductController::class, 'addToCart'])->name('cart.add');
+});
     // Order routes
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
