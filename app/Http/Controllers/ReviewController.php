@@ -4,13 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Review;
+use App\Models\ReviewLike;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function store(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Please login to submit a review',
+                'redirect' => route('login')
+            ], 401);
+        }
+
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'rating' => 'required|integer|min:1|max:5',
@@ -30,11 +44,8 @@ class ReviewController extends Controller
             ]);
         }
 
-        // Check if user purchased this product (optional)
-        $verifiedPurchase = \App\Models\OrderItem::whereHas('order', function($query) {
-            $query->where('user_id', Auth::id())
-                  ->where('status', 'completed');
-        })->where('product_id', $request->product_id)->exists();
+        // Check if user purchased this product (optional - you'll need to implement OrderItem model)
+        $verifiedPurchase = false; // Set to false for now since we don't have orders implemented
 
         Review::create([
             'user_id' => Auth::id(),
@@ -53,10 +64,18 @@ class ReviewController extends Controller
 
     public function like($id)
     {
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Please login to like reviews',
+                'redirect' => route('login')
+            ], 401);
+        }
+
         $review = Review::findOrFail($id);
         
         // Toggle like (simple implementation)
-        $like = \App\Models\ReviewLike::where('user_id', Auth::id())
+        $like = ReviewLike::where('user_id', Auth::id())
             ->where('review_id', $id)
             ->first();
 
@@ -64,7 +83,7 @@ class ReviewController extends Controller
             $like->delete();
             $liked = false;
         } else {
-            \App\Models\ReviewLike::create([
+            ReviewLike::create([
                 'user_id' => Auth::id(),
                 'review_id' => $id
             ]);
