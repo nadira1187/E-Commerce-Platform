@@ -22,7 +22,7 @@ class OrderController extends Controller
         $orders = Order::with(['items.product', 'trackingUpdates'])
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
 
         return view('orders.index', compact('orders'));
     }
@@ -46,7 +46,7 @@ class OrderController extends Controller
 
         $cartItems = CartItem::with('product')
             ->where('user_id', Auth::id())
-            ->get();
+            ->paginate(10);
 
         if ($cartItems->isEmpty()) {
             return back()->with('error', 'Your cart is empty!');
@@ -103,6 +103,14 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index')->with('success', 'Order placed successfully!');
     }
+    //  public function trackOrder(Order $order)
+    // {
+    //     if ($order->user_id !== Auth::id()) {
+    //         abort(403, 'Unauthorized access to this order.');
+    //     }
+
+    //     return view('orders.track', compact('order'));
+    // }
 
     public function updateTracking(Request $request, Order $order)
     {

@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\AuthController;
@@ -8,6 +7,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -31,23 +31,33 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cart/apply-promo', [CartController::class, 'applyPromo'])->name('cart.apply-promo');
     Route::post('/cart/save-for-later', [CartController::class, 'saveForLater'])->name('cart.save-for-later');
     Route::post('/cart/add', [ProductController::class, 'addToCart'])->name('cart.add');
+
 });
     // Order routes
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
-
+     Route::get('/my-orders/{order}/track', [OrderController::class, 'trackOrder'])->name('user.orders.track');
     // Review routes
     Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::post('/reviews/{review}/vote', [ReviewController::class, 'vote'])->name('reviews.vote');
+
+        // Checkout routes
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout/create-payment-intent', [CheckoutController::class, 'createPaymentIntent'])->name('checkout.create-payment-intent');
+    Route::post('/checkout/process', [CheckoutController::class, 'processPayment'])->name('checkout.process');
+    Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
 });
+
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
     Route::get('/products', [AdminController::class, 'products'])->name('products');
+    Route::get('/products/create', [AdminController::class, 'createProduct'])->name('products.create');
+    Route::get('/reviews', [AdminController::class, 'reviews'])->name('reviews');
     Route::get('/users', [AdminController::class, 'users'])->name('users');
     Route::put('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.status');
     Route::put('/products/{product}/status', [AdminController::class, 'updateProductStatus'])->name('products.status');
@@ -57,7 +67,7 @@ Route::get('/products/{id}', [ProductController::class, 'show'])->name('products
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 // Review routes
-Route::middleware(['auth'])->group(function () {
-    Route::post('/reviews/add', [ReviewController::class, 'store'])->name('reviews.store');
-    Route::post('/reviews/{review}/like', [ReviewController::class, 'like'])->name('reviews.like');
-});
+// Route::middleware(['auth'])->group(function () {
+//     Route::post('/reviews/add', [ReviewController::class, 'store'])->name('reviews.store');
+//     Route::post('/reviews/{review}/like', [ReviewController::class, 'like'])->name('reviews.like');
+// });
