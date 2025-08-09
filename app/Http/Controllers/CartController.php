@@ -20,16 +20,17 @@ class CartController extends Controller
             return redirect()->route('login')->with('message', 'Please login to view your cart.');
         }
 
-        $cartItems = CartItem::with('product')
-            ->where('user_id', Auth::id())
+        // Remove ->with(['product.images']) since images are now in the product table
+        $cartItems = CartItem::where('user_id', Auth::id())
+            ->with('product')
             ->get();
 
-        $subtotal = $cartItems->sum(function ($item) {
-            return $item->product->price * $item->quantity;
+        $subtotal = $cartItems->sum(function($item) {
+            return $item->quantity * $item->product->price;
         });
 
-        $shipping = $subtotal >= 100 ? 0 : 10; // Free shipping over $100
-        $tax = $subtotal * 0.08; // 8% tax
+        $shipping = 15.00;
+        $tax = $subtotal * 0.08;
         $total = $subtotal + $shipping + $tax;
 
         return view('cart.index', compact('cartItems', 'subtotal', 'shipping', 'tax', 'total'));

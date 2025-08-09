@@ -14,6 +14,12 @@ class ReviewController extends Controller
     {
         $this->middleware('auth');
     }
+    public function index()
+{
+    $reviews = Review::with('user', 'product')->latest()->paginate(10);
+    return view('reviews.index', compact('reviews'));
+}
+
 
     public function store(Request $request)
     {
